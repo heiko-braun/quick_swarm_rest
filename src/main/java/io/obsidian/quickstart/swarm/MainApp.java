@@ -57,9 +57,8 @@ public class MainApp {
 		archive.setTitle("WildFly Swarm REST Example");
 		archive.setDescription("An example using REST and Swagger");
 		archive.setVersion("1.0");
-
-
 		archive.setResourcePackages(RestEndpoint.class.getPackage().getName());
+
 		container.deploy(deployment);
 	}
 }

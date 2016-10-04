@@ -1,35 +1,35 @@
-# Swarm Camel REST Quickstart
+# WildFly Swarm REST Quickstart
 
 ## Introduction
 
-This quickstart uses WildFly Swarm as Java container and the Apache Camel Integration Framework to expose a RESTfull endpoint registered within the Undertow server.
-This example uses the REST fluent DSL to define a service which provides one operation
+This quickstart uses WildFly Swarm to expose a RESTful endpoint and exposes the service contract using Swagger.
+It provides a simple API like this:
 
-- GET api/say/{id}       - Say Hello to the user name
+```
+GET api/say/{id}       - Say Hello to the user name
+```
 
-The Camel modules deployed within the WildFly Swarm container are defined within the pom.xml definition file. To expose the JMX MBeans using a HTTP endpoint, we have also
-packaged to this quickstart project, the [jolokia](https://jolokia.org/reference/html/protocol.html) technology which allows to query your MBeans using JSon over HTTP.
+The REst endpoint use default JAX-RS API, and the service contract are provided through the Swagger fraction. To allow for remote monitoring,
+the management fraction has been added to provide access to the server status.
 
-To configure jolokia, we must declare a Wildfly [fraction](https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/v/6a00bb344527303f784f541ee2fb93abec4a1ef4/fraction_authoring.html) which is the composable piece of the platform
-in order to deploy and customize the module (example: to define the URL path to access the Jolokia JMX resource).
-
-The static resources (index.html file containing the link to the swagger.json doc file) like also the package containing the Camel route are defined within the WAR Archive which is created using ShrinkWrap and deployed after the Container has been started. 
-
-The Camel context is created using the CDI Weld Container which is reponsible to scan the classes to discover the @ApplicationScope annotation like also the the @CamelContext annotation which is managed as a cdi extension.
+The static resources (index.html file containing the link to the swagger.json doc file).
 
 The MainApp class is bootstrapped by the WildFly Swarm container when we launch it.
 
 ```
 public static void main(String[] args) throws Exception {
-	Swarm container = new Swarm();
-    container.fraction(new JolokiaFraction("/jmx"));
-    container.start();
+    Swarm container = new Swarm();
+		[...]
+		container.start();
 
-    WARArchive deployment = ShrinkWrap.create(WARArchive.class);
-    deployment.addPackage("io.fabric8.quickstarts.swarm.route");
-    deployment.staticContent();
+    JAXRSArchive deployment = ShrinkWrap.create(JAXRSArchive.class);
+		deployment.addResource(RestEndpoint.class);
+		deployment.staticContent();
 
-    container.deploy(deployment);
+		[...]
+
+		container.deploy(deployment);
+
 ```
 
 To configure the logging appender responsible to collect the logs, we will add the Logging Fraction and define it as such
@@ -51,6 +51,17 @@ container.fraction(new LoggingFraction()
 A FileHandler is defined with the name of the Logging file, the logging level and the format to be used to save the informations. To configure the Logging Api
 to use this appender for the root logger, we have also configured the rootLogger field with the id of the fileHandler created.
 
+The Swagger API information is exposed through a custom shrinkwrap descriptor:
+
+```
+    SwaggerArchive archive = deployment.as(SwaggerArchive.class);
+		archive.setResourcePackages("org.wildfly.swarm.examples");
+		archive.setTitle("WildFly Swarm REST Example");
+		archive.setDescription("An example using REST and Swagger");
+		archive.setVersion("1.0");
+		archive.setResourcePackages(RestEndpoint.class.getPackage().getName());
+
+```
 ## Build
 
 You will need to compile this example first:
