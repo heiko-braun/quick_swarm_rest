@@ -46,13 +46,13 @@
         <fabric8.service.type>LoadBalancer</fabric8.service.type>
 
         <fabric8.readinessProbe.httpGet.port>${http.port}</fabric8.readinessProbe.httpGet.port>
-        <fabric8.readinessProbe.httpGet.path>/jmx</fabric8.readinessProbe.httpGet.path>
+        <fabric8.readinessProbe.httpGet.path>/service/say/pong</fabric8.readinessProbe.httpGet.path>
         <fabric8.readinessProbe.timeoutSeconds>30</fabric8.readinessProbe.timeoutSeconds>
         <fabric8.readinessProbe.initialDelaySeconds>5</fabric8.readinessProbe.initialDelaySeconds>
 
-        <!-- Volume -->
+       <!-- &lt;!&ndash; Volume &ndash;&gt;
         <fabric8.volume.v1.hostPath>/var/log</fabric8.volume.v1.hostPath>
-        <fabric8.volume.v1.mountPath>/var/log</fabric8.volume.v1.mountPath>
+        <fabric8.volume.v1.mountPath>/var/log</fabric8.volume.v1.mountPath>-->
 
         <!-- Labels -->
         <fabric8.label.group>quickstart</fabric8.label.group>
@@ -61,10 +61,10 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
-        <maven-docker-plugin.version>0.15.9</maven-docker-plugin.version>
+        <maven-docker-plugin.version>0.15.16</maven-docker-plugin.version>
 
         <camel.version>2.17.3</camel.version>
-        <fabric8.version>2.2.148</fabric8.version>
+        <fabric8.maven.plugin.version>3.1.64</fabric8.maven.plugin.version>
         <wildfly-swarm.version>2016.10.0</wildfly-swarm.version>
     </properties>
 
