@@ -63,9 +63,9 @@ archive.setVersion("1.0");
 archive.setResourcePackages(RestEndpoint.class.getPackage().getName());
 
 ```
-## Build & Execute Standalone
+# Build & Execute Standalone
 
-### Build
+## Build
 You will need to compile this example first:
 
 ```
@@ -140,7 +140,7 @@ This would result in:
 
 To stop the example hit <kbd>ctrl</kbd>+<kbd>c</kbd>
 
-## Management
+### Management
 
 We have registered the management fraction in order to access runtime status of the server
 
@@ -175,12 +175,12 @@ Results in:
 }
 ```
 
-## Running the example on OpenShift
+# Running the example on OpenShift
 
 It is assumed that an OpenShift platform is already running. If not, you can find details how to setup the infrastructure hereafter and more information here
 [get started](https://github.com/jimmidyson/minishift).
 
-### Launch minishift
+## Launch minishift
 
 ```
 ./scripts/create-minishift.sh
@@ -208,13 +208,13 @@ You can also use the OpenShift web console to manage the running pods, and view 
  minishift console
 ```
 
-### Build and deploy the services to openshift
+## Build and deploy the services to openshift
 
 ```
 mvn fabric8:deploy
 ```
 
-### Access services from outside openshift
+## Access services from outside openshift
 
 You can use any browser to perform a HTTP GET. This allows you to very easily test a few of the RESTful services we defined:
 
@@ -222,7 +222,7 @@ You can use any browser to perform a HTTP GET. This allows you to very easily te
 curl $(minishift service swarm-rest-example --url=true)/service/say/pong
 ```
 
-### Remove all openshift assets
+## Remove all openshift assets
 This removes all pods, services, etc
 
 ```
